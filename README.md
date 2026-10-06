@@ -1,16 +1,65 @@
-# React + Vite
+# EternalOps
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### AI-Driven Self-Healing Cloud-Native Infrastructure for Autonomous DevOps
 
-Currently, two official plugins are available:
+EternalOps is a cloud-native DevOps and self-healing platform designed to detect application and infrastructure failures, analyze the incident, select a safe remediation action, execute it through an Edge Agent, and verify whether the system has successfully recovered.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Instead of stopping at monitoring and alerting, EternalOps implements a closed-loop incident response workflow:
 
-## React Compiler
+**Telemetry → Detection → Decision → Safety Policy → Edge Agent → Remediation → Verification → Resolution / Escalation**
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Overview
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Modern cloud-native applications run across distributed containers, Kubernetes clusters, CI/CD pipelines, and multiple infrastructure environments. Failures such as unhealthy workloads, application readiness failures, and container crashes can require immediate intervention.
+
+EternalOps aims to reduce manual intervention by providing an automated incident-response loop.
+
+The platform:
+
+- Monitors Kubernetes workloads and infrastructure telemetry
+- Detects application and infrastructure failures
+- Analyzes incidents and selects remediation actions
+- Applies safety policies before autonomous remediation
+- Executes approved actions through an Edge Agent
+- Verifies the workload after remediation
+- Resolves recovered incidents automatically
+- Escalates incidents when recovery fails
+- Maintains audit information for incident lifecycle tracking
+
+---
+
+## Architecture
+
+```text
+                    EternalOps Control Plane
+                           │
+             ┌─────────────┴─────────────┐
+             │                           │
+        Detection Engine           Decision Engine
+             │                           │
+             └─────────────┬─────────────┘
+                           │
+                     Safety Policy
+                           │
+                           ▼
+                    EternalOps Edge Agent
+                           │
+                           ▼
+                 Customer Kubernetes
+                           │
+             ┌─────────────┼─────────────┐
+             │             │             │
+          Workloads     Prometheus   Kubernetes API
+             │             │
+             └─────────────┴─────────────┘
+                           │
+                           ▼
+                      Verification
+                           │
+                 ┌─────────┴─────────┐
+                 │                   │
+             Recovered            Failed
+                 │                   │
+             RESOLVED            ESCALATED
